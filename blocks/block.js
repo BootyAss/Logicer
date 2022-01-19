@@ -18,6 +18,7 @@ module.exports = class Block {
         this.outputType = outputType;
     }
 
+    get name() { return this.constructor.name; }
 
     addPut = (puts, putType) => {
         let id = this.generatePutId(puts);

@@ -36,11 +36,24 @@ module.exports = class Unit extends Block {
     }
 
     showOutput = () => {
+        let outs = Object.values(this.outs);
+        let oldOutput = outs.map(put => put.state ? '1' : '0').join('');
+        let oldVecIndex = parseInt(oldOutput, 2);
+
         let inps = Object.values(this.inps);
-        let inputVec = inps.map(put => put.state ? '1' : '0').join('');
-        let vecIndex = parseInt(inputVec, 2);
-        for (let i of Object.keys(this.outs)) {
-            this.outs[i].state = this.outVec[i][vecIndex];
+        for (let i of Object.keys(inps)) {
+            this.inps[i].state = this.inps[i].connection.state;
+        }
+
+        let newOutput = inps.map(put => put.state ? '1' : '0').join('');
+        let newVecIndex = parseInt(newOutput, 2);
+
+        // let changed = oldVecIndex != newVecIndex;
+        for (let i of Object.keys(outs)) {
+            this.outs[i].state = this.outVec[i][newVecIndex];
+            if (this.outs[i].connection) {
+                this.outs[i].connection.parent.checkToShowOutput();
+            }
         }
     }
 };
