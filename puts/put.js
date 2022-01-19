@@ -30,15 +30,13 @@ module.exports = class Put {
     }
 
     flip = () => {
-        this.state = !(this.state)
+        this.state = !(this.state);
         if (this.connection == null)
-            return
+            return;
 
-        let [allowCon, isSource] = Connections[this.name][this.connection.name];
+        let [, isSource] = Connections[this.name][this.connection.name];
         if (isSource) {
-            // this.connection.state = this.state;
-            this.connection.parent.checkToShowOutput();
-            // console.log(this.connection.parent);
+            this.connection.parent.checkAllInputs();
         }
     };
 
@@ -50,34 +48,30 @@ module.exports = class Put {
         // clear out old connection, check output
         if (this.connection) {
             this.connection.unconnect(); // unconnect old from us
-            this.connection.state = this.connection.defaultState; // change old's state
-            this.connection.parent.checkToShowOutput(); // checks old's outputs
             this.unconnect(); //unconnect us from old
         }
 
         // clear new connection's old connection, check output
         if (con.connection) {
             con.connection.unconnect();
-            con.connection.state = con.connection.defaultState;
-            con.connection.parent.checkToShowOutput();
             con.unconnect();
         }
 
         con.connection = this; // connect new to us
         this.connection = con; // connect us to new
 
-        if (isSource) { // if we are giver -> new gainer
-            this.connection.state = this.state; // change new's state to ours
-            this.connection.parent.checkToShowOutput(); // check new's outputs
+        if (isSource) { // if we are giver -> new is gainer
+            this.connection.parent.checkAllInputs(); // check new's outputs
         } else {
             this.state = con.state; // change ours state to new's
-            this.parent.checkToShowOutput(); // check our soutputs
+            this.parent.checkAllInputs(); // check our soutputs
         }
     }
 
     unconnect = () => {
         this.connection = null;
-        this.parent.checkToShowOutput();
+        this.state = this.defaultState;
+        this.parent.checkAllInputs();
     }
 
     debug = () => {

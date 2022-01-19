@@ -27,33 +27,36 @@ module.exports = class Unit extends Block {
             this.addInput();
     }
 
-    checkToShowOutput = () => {
+    checkAllInputs = () => {
         let inps = Object.values(this.inps);
         let allConnected = inps.every(put => put.connection !== null);
-        if (!(allConnected))
-            return
-        this.showOutput();
+        if (allConnected)
+            this.showOutputs();
+        else
+            this.clearOutputs();
     }
 
-    showOutput = () => {
-        let outs = Object.values(this.outs);
-        let oldOutput = outs.map(put => put.state ? '1' : '0').join('');
-        let oldVecIndex = parseInt(oldOutput, 2);
-
-        let inps = Object.values(this.inps);
-        for (let i of Object.keys(inps)) {
-            this.inps[i].state = this.inps[i].connection.state;
+    showOutputs = () => {
+        // gain states from connections
+        for (let i of Object.keys(this.inps)) {
+            this.inps[i].setState(this.inps[i].connection.state);
         }
 
+        let inps = Object.values(this.inps);
         let newOutput = inps.map(put => put.state ? '1' : '0').join('');
         let newVecIndex = parseInt(newOutput, 2);
 
         // let changed = oldVecIndex != newVecIndex;
-        for (let i of Object.keys(outs)) {
-            this.outs[i].state = this.outVec[i][newVecIndex];
+        for (let i of Object.keys(this.outs)) {
+            this.outs[i].setState(this.outVec[i][newVecIndex]);
             if (this.outs[i].connection) {
-                this.outs[i].connection.parent.checkToShowOutput();
+                this.outs[i].connection.parent.checkAllInputs();
             }
         }
+    }
+
+    clearOutputs = () => {
+        for (let i of Object.keys(this.outs))
+            this.outs[i].state = this.outs[i].defaultState;
     }
 };

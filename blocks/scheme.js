@@ -28,10 +28,10 @@ module.exports = class Scheme extends Block {
         input.flip();
     }
 
-    checkToShowOutput = () => {
+    checkAllInputs = () => {
         for (let i of Object.keys(this.outs))
             if (this.outs[i].connection)
-                this.outs[i].state = this.outs[i].connection.state;
+                this.outs[i].setState(this.outs[i].connection.state);
     }
 
     saveAsUnit = (id) => {
@@ -46,7 +46,6 @@ module.exports = class Scheme extends Block {
             let binVal = iter.toString(2);
             this.setInputs(binVal);
             for (let j of Object.keys(this.outs)) {
-                console.log('output ' + j + ' =' + this.outs[j].state);
                 outputVectors[j][i] = this.outs[j].state;
             }
             iter++;

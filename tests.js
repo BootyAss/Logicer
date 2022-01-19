@@ -14,30 +14,10 @@ var Tests = {
         let U1O = unit1.getOutput(0);
         let U2O = unit2.getOutput(0);
 
-        console.log('\n\tconnecting S to 1 NOT')
         SI0.connect(U1I);
-        console.log('connected S to 1 NOT')
-
-        unit1.debug();
-        unit2.debug();
-
-        console.log('\n\tconnecting 1NOT to 2NOT')
         U1O.connect(U2I);
-        console.log('connected')
-
-        unit1.debug();
-        unit2.debug();
-
-        console.log('\n\tconnecting 2 NOT to S')
         U2O.connect(SO0);
-        console.log('connected')
 
-        unit1.debug();
-        unit2.debug();
-        scheme.debug();
-
-        console.log('\n\nfliping')
-        scheme.flipInput(0);
         unit1.debug();
         unit2.debug();
         scheme.debug();
@@ -61,12 +41,13 @@ var Tests = {
         let U1I0 = unitNot.getInput(0);
         let U1O0 = unitNot.getOutput(0);
 
-        SI0.connect(U0I0)
-        SI1.connect(U0I1)
-        U0O0.connect(U1I0)
-        U1O0.connect(SO0)
-        scheme.debug();
+        SI0.connect(U0I0);
+        SI1.connect(U0I1);
+        U0O0.connect(U1I0);
+        U1O0.connect(SO0);
 
+        unitAdd.debug();
+        unitNot.debug();
         scheme.debug();
 
         let nandUnit = scheme.saveAsUnit(2);
@@ -77,6 +58,10 @@ var Tests = {
         SI0.connect(nandI0)
         SI1.connect(nandI1)
         nandO.connect(SO0)
+
+        nandUnit.debug();
+        unitAdd.debug();
+        unitNot.debug();
         scheme.debug();
     },
 
@@ -112,7 +97,6 @@ var Tests = {
         scheme.debug();
         unit1.debug();
         unit2.debug();
-
 
         SI0.connect(U2I);
         U2O.connect(UI0);
@@ -151,13 +135,7 @@ var Tests = {
         SI0.connect(UI0);
         UO0.connect(SO0);
 
-        console.log(' ====== ')
-        scheme.debug();
-        unit.debug();
-
-        scheme.flipInput(0);
-
-        console.log(' ====== ')
+        console.log(' ====== ');
         scheme.debug();
         unit.debug();
     }

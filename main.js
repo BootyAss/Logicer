@@ -12,3 +12,4 @@ let scheme = new Scheme(0);
 // Tests.test2(scheme);
 Tests.saveNandUnit(scheme);
 // Tests.neww(scheme);
+console.log()
