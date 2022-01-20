@@ -1,0 +1,37 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "import extensions",
+            "type": "shell",
+            "command": "node extensions.js",
+            "windows": {
+                "command": "node extensions.js"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "runOptions": {
+                "runOn": "default"
+            }
+        },
+        {
+            "label": "tsc: build",
+            "type": "typescript",
+            "tsconfig": "tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "TS + Ext",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "tsc: build",
+                "import extensions"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "ES2021",
+        "module": "ES2020",
+        "noImplicitAny": false,
+        "removeComments": false,
+        "sourceMap": false,
+        "outDir": "public"
+    },
+    "include": ["src/**/*"],
+    "exclude": ["src/test*/*"]
+}
