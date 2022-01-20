@@ -1,15 +1,13 @@
-const Scheme = require('./blocks/scheme');
-const Unit = require('./blocks/unit');
-const Tests = require('./tests');
-
+// const Scheme = require('./blocks/scheme');
+// const Base = require('./blocks/simpleUnits');
+import { Scheme } from './blocks/scheme.js';
+import { Base } from './blocks/simpleUnits.js';
 
 let scheme = new Scheme(0);
 
+let schemeDiv = scheme.getDiv();
+let schemeCnt = document.createElement('div');
+schemeCnt.className = 'scheme-container';
 
-// // S -> NOT + andOrNandNor -> S
-// Tests.test1(scheme);
-// // S -> andOrNandNor -> S
-// Tests.test2(scheme);
-Tests.saveNandUnit(scheme);
-// Tests.neww(scheme);
-console.log()
+schemeCnt.appendChild(schemeDiv);
+document.body.appendChild(schemeCnt);

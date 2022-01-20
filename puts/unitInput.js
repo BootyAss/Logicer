@@ -1,6 +1,7 @@
-const Input = require('./input')
+// const Input = require('./input')
+import { Input } from './input.js';
 
-module.exports = class UnitInput extends Input {
+export class UnitInput extends Input {
     constructor(parent, id, state = false, connection = null) {
         super(state, parent, id, connection);
     }

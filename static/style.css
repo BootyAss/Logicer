@@ -1,36 +1,10 @@
 html,
 body {
-    display: flex;
     margin: 0;
     padding: 0;
     width: 100vw;
     height: 100vh;
     user-select: none;
-}
-
-#content {
-    /* width: 90vw;
-    height: 97vh; */
-}
-
-#table,
-#registry,
-#buttons {
-    border-style: solid;
-}
-
-.put {
-    position: absolute;
-    border-radius: 50%;
-}
-
-.block {
-    position: absolute;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 25px;
-    font-size: 20px;
-    color: #000000;
 }
 
 
@@ -41,14 +15,7 @@ body {
     background-color: #373e4e;
 }
 
-#content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    /* background-color: #ffffff; */
-}
-
-#table,
+#scheme,
 #registry {
     background-color: #3e3c3e;
     border-color: #797683;
@@ -62,6 +29,6 @@ body {
     background-color: #101010;
 }
 
-.block {
+.unit {
     background-color: #ffffff;
 }

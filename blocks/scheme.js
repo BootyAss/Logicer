@@ -1,14 +1,22 @@
-const Block = require('./block');
-const Unit = require('./unit');
+// const Block = require('./block');
+// const Unit = require('./unit');
+// const SchemeInput = require('./../puts/schemeInput');
+// const SchemeOutput = require('./../puts/schemeOutput');
 
-const SchemeInput = require('./../puts/schemeInput');
-const SchemeOutput = require('./../puts/schemeOutput');
+import { Block } from './block.js';
+import { Unit } from './unit.js';
+import { SchemeInput } from './../puts/schemeInput.js';
+import { SchemeOutput } from './../puts/schemeOutput.js';
 
-module.exports = class Scheme extends Block {
+
+export class Scheme extends Block {
+    units = {};
     constructor(id, outVec = { 0: [false, false] }) {
         super(id, outVec, SchemeInput, SchemeOutput);
         this.addOutput();
         this.addInput();
+
+        this.div.className = 'scheme';
     }
 
     addInput = () => {
@@ -34,7 +42,40 @@ module.exports = class Scheme extends Block {
                 this.outs[i].setState(this.outs[i].connection.state);
     }
 
-    saveAsUnit = (id) => {
+
+    setInputs = (binVal) => {
+        let iter = 0;
+        for (let i of Object.keys(this.inps)) {
+            let bin = Boolean(parseInt(binVal[iter]));
+            this.inps[i].setState(bin);
+            iter++;
+        }
+
+    }
+
+    addUnit = (inputVal, name = undefined) => {
+        if (inputVal instanceof Unit) {
+            name = inputVal.name;
+            inputVal = inputVal.outVec;
+        }
+
+        let id = this.generateId(this.units);
+        let unit = new Unit(id, inputVal, name);
+
+        if (unit)
+            this.units[id] = unit;
+
+        return id;
+    }
+
+    getUnit = (id, name = undefined) => {
+        if (!name) {
+            return this.units[id];
+        }
+        return Object.entries(this.units).map(([key, val]) => { if (val.name == name) return key; })
+    }
+
+    saveAsUnit = (name = undefined) => {
         let outputVectors = {};
         let vectorLen = Math.pow(2, Object.keys(this.inps).length);
         for (let i of Object.keys(this.outs)) {
@@ -50,18 +91,45 @@ module.exports = class Scheme extends Block {
             }
             iter++;
         }
-
-        return new Unit(id, outputVectors);
+        return new Unit(null, outputVectors, name);
     }
 
-    setInputs = (binVal) => {
-        let iter = 0;
-        for (let i of Object.keys(this.inps)) {
-            let bin = Boolean(parseInt(binVal[iter]));
-            this.inps[i].setState(bin);
-            iter++;
+    removeUnit = (id) => {
+        if (id in this.units) {
+            this.units[id].removeSelf();
+            delete this.units[id];
         }
+    }
+
+    clear = () => {
+        for (let i of Object.keys(this.inps))
+            this.removeInput(i);
+
+        for (let i of Object.keys(this.outs))
+            this.removeOutput(i);
+
+        for (let i of Object.keys(this.units))
+            this.removeUnit(i);
+
+        this.addOutput();
+        this.addInput();
 
     }
 
+
+
+    debug = () => {
+        console.log('Scheme:\n\tinputs:')
+        for (let put of Object.values(this.inps)) {
+            console.log(put.debug());
+        }
+        console.log('\toutputs:')
+        for (let put of Object.values(this.outs)) {
+            console.log(put.debug());
+        }
+        console.log('\tUnits:')
+        for (let unit of Object.values(this.units)) {
+            unit.debug();
+        }
+    }
 };

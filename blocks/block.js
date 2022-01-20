@@ -1,4 +1,4 @@
-module.exports = class Block {
+export class Block {
     inps = {};
     outs = {};
     outVec = {};
@@ -7,6 +7,7 @@ module.exports = class Block {
     inputType = null;
     outputType = null;
 
+    div = null;
     constructor(id, outVec, inputType, outputType) {
         this.checkOutputVectors(outVec);
 
@@ -16,21 +17,38 @@ module.exports = class Block {
         // Fix this MF logic
         this.inputType = inputType;
         this.outputType = outputType;
+
+        this.div = document.createElement('div');
     }
 
-    get name() { return this.constructor.name; }
 
     addPut = (puts, putType) => {
-        let id = this.generatePutId(puts);
+        let id = this.generateId(puts);
         puts[id] = new putType(this, id);
         return id;
     }
 
-    generatePutId = (puts) => {
-        let ids = Object.keys(puts);
+    generateId = (obj) => {
+        let ids = Object.keys(obj);
         let id = ids.length > 0 ? (Math.max(...ids) + 1) : 0;
         return id;
     }
+
+    removeInput = (id) => {
+        this.removePut(this.inps, id);
+    }
+
+    removeOutput = (id) => {
+        this.removePut(this.outs, id);
+    }
+
+    removePut = (puts, id) => {
+        if (id in puts) {
+            puts[id].removeSelf();
+            delete puts[id];
+        }
+    }
+
 
     recalculateOutputVectors = () => {
         let len = Math.pow(2, Object.keys(this.inps).length);
@@ -72,17 +90,7 @@ module.exports = class Block {
         return puts[id];
     }
 
-
-
-    debug = () => {
-        console.log('\n' + this.constructor.name + ':')
-        console.log('\tinputs:')
-        for (let put of Object.values(this.inps)) {
-            console.log(put.debug());
-        }
-        console.log('\toutputs:')
-        for (let put of Object.values(this.outs)) {
-            console.log(put.debug());
-        }
+    getDiv = () => {
+        return this.div;
     }
 }

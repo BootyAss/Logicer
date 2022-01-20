@@ -1,8 +1,9 @@
 // Abstract Root class of all Inputs and Outputs
 
-const Connections = require('./connections')
+// const Connections = require('./connections')
+import { Connections } from './connections.js';
 
-module.exports = class Put {
+export class Put {
     state = false;
     parent = null;
     id = 0;
@@ -72,6 +73,13 @@ module.exports = class Put {
         this.connection = null;
         this.state = this.defaultState;
         this.parent.checkAllInputs();
+    }
+
+    removeSelf = () => {
+        if (this.connection) {
+            this.connection.unconnect();
+            this.unconnect();
+        }
     }
 
     debug = () => {

@@ -1,4 +1,4 @@
-module.exports = {
+var Connections = {
     SchemeInput: {
         SchemeInput: [false, null],
         SchemeOutput: [true, true],
@@ -23,4 +23,6 @@ module.exports = {
         UnitInput: [true, true],
         UnitOutput: [false, null],
     }
-}
+};
+
+export { Connections };

@@ -1,11 +1,11 @@
 const Unit = require('./blocks/unit');
-const SimpleUnits = require('./simpleUnits');
+const testUnits = require('./testUnits');
 
 
 var Tests = {
     neww: (scheme) => {
-        let unit1 = new Unit(0, SimpleUnits.notUnit);
-        let unit2 = new Unit(1, SimpleUnits.notUnit);
+        let unit1 = new Unit(0, testUnits.notUnit);
+        let unit2 = new Unit(1, testUnits.notUnit);
         let SI0 = scheme.getInput(0);
         let SO0 = scheme.getOutput(0);
 
@@ -24,8 +24,8 @@ var Tests = {
     },
 
     saveNandUnit: (scheme) => {
-        let unitAdd = new Unit(0, SimpleUnits.andUnit);
-        let unitNot = new Unit(1, SimpleUnits.notUnit);
+        let unitAdd = new Unit(0, testUnits.andUnit);
+        let unitNot = new Unit(1, testUnits.notUnit);
 
         scheme.addInput();
 
@@ -67,8 +67,8 @@ var Tests = {
 
     // S -> NOT + andOrNandNor -> S
     test1: (scheme) => {
-        let unit1 = new Unit(0, SimpleUnits.andOrNandNorUnit);
-        let unit2 = new Unit(1, SimpleUnits.notUnit);
+        let unit1 = new Unit(0, testUnits.andOrNandNorUnit);
+        let unit2 = new Unit(1, testUnits.notUnit);
 
         scheme.addInput();
         scheme.addOutput();
@@ -121,7 +121,7 @@ var Tests = {
 
     // S -> andOrNandNor -> S
     test2: (scheme) => {
-        let unit = new Unit(0, SimpleUnits.notUnit);
+        let unit = new Unit(0, testUnits.notUnit);
         let SI0 = scheme.getInput(0);
         let SO0 = scheme.getOutput(0);
 

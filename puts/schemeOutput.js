@@ -1,6 +1,7 @@
-const Output = require('./output')
+// const Output = require('./output')
+import { Output } from './output.js';
 
-module.exports = class SchemeOutput extends Output {
+export class SchemeOutput extends Output {
     constructor(parent, id, state = false, connection = null) {
         super(state, parent, id, connection);
     }

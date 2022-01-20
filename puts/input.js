@@ -1,8 +1,10 @@
 // Abstract Parent class of all Inputs
 
-const Put = require('./put')
+// const Put = require('./put')
+import { Put } from './put.js';
 
-module.exports = class Input extends Put {
+
+export class Input extends Put {
     constructor(state, parent, id, connection) {
         super(state, parent, id, connection);
     }

@@ -1,12 +1,19 @@
-const Block = require('./block');
-const UnitInput = require('./../puts/unitInput');
-const UnitOutput = require('./../puts/unitOutput');
+// const Block = require('./block');
+// const UnitInput = require('./../puts/unitInput');
+// const UnitOutput = require('./../puts/unitOutput');
 
-module.exports = class Unit extends Block {
-    constructor(id, outVec) {
+import { Block } from './block.js';
+import { UnitInput } from './../puts/unitInput.js';
+import { UnitOutput } from './../puts/unitOutput.js';
+
+
+export class Unit extends Block {
+    constructor(id, outVec, name = 'Unit') {
         super(id, outVec, UnitInput, UnitOutput);
-
+        this.name = name;
         this.addPutsByOutVec();
+
+        this.div.className = 'unit';
     }
 
     addInput = () => {
@@ -31,12 +38,12 @@ module.exports = class Unit extends Block {
         let inps = Object.values(this.inps);
         let allConnected = inps.every(put => put.connection !== null);
         if (allConnected)
-            this.showOutputs();
+            this.calculateOutputs();
         else
             this.clearOutputs();
     }
 
-    showOutputs = () => {
+    calculateOutputs = () => {
         // gain states from connections
         for (let i of Object.keys(this.inps)) {
             this.inps[i].setState(this.inps[i].connection.state);
@@ -58,5 +65,25 @@ module.exports = class Unit extends Block {
     clearOutputs = () => {
         for (let i of Object.keys(this.outs))
             this.outs[i].state = this.outs[i].defaultState;
+    }
+
+    removeSelf = () => {
+        for (let i of Object.keys(this.inps))
+            this.removeInput(i);
+        for (let i of Object.keys(this.outs))
+            this.removeOutput(i);
+
+    }
+
+    debug = () => {
+        console.log('Unit ' + this.name + this.id + ':')
+        console.log('\tinputs:')
+        for (let put of Object.values(this.inps)) {
+            console.log(put.debug());
+        }
+        console.log('\toutputs:')
+        for (let put of Object.values(this.outs)) {
+            console.log(put.debug());
+        }
     }
 };
