@@ -17,7 +17,7 @@ Fix TS extensions
 
 Because after compiling from TypeScript JavaScript files miss '.js' extensions in import statements `extensions.js` file was made. Script depends on `filehound` module.
 
-To simplify compiling process VS Code task (`.vscode/tasks.json`) was made which runs TS build and then `extensions` script.
+To simplify compiling process VS Code task (`.vscode/tasks.json`) was made which runs TS build, installs all node dependencies and runs `extensions` script.
 
 <br><br>
 

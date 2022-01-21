@@ -2,6 +2,21 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "generate node_modules",
+            "type": "shell",
+            "command": "npm i",
+            "windows": {
+                "command": "npm i"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "runOptions": {
+                "runOn": "default"
+            }
+        },
+        {
             "label": "import extensions",
             "type": "shell",
             "command": "node extensions.js",
@@ -30,7 +45,11 @@
             "dependsOrder": "sequence",
             "dependsOn": [
                 "tsc: build",
+                "generate node_modules",
                 "import extensions"
+            ],
+            "problemMatcher": [
+                "$tsc"
             ]
         }
     ]
