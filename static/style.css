@@ -5,6 +5,30 @@ body {
     width: 100vw;
     height: 100vh;
     user-select: none;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
+.container {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+}
+
+.block {
+    border-style: solid;
+    position: absolute;
+}
+
+.unit {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.put {
+    position: absolute;
+    border-radius: 50%;
 }
 
 
@@ -15,8 +39,12 @@ body {
     background-color: #373e4e;
 }
 
-#scheme,
-#registry {
+.container {
+    background-color: #ffffff70;
+}
+
+.scheme,
+.registry {
     background-color: #3e3c3e;
     border-color: #797683;
 }
@@ -31,4 +59,11 @@ body {
 
 .unit {
     background-color: #ffffff;
+}
+
+.dot {
+    position: absolute;
+    background-color: #ec2929;
+    width: 1px;
+    height: 1px;
 }

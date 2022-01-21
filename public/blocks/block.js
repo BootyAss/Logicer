@@ -2,6 +2,7 @@ class Block {
     constructor(id, outVec, inputType, outputType) {
         this.inps = {};
         this.outs = {};
+        this.startedCLick = false; // Mouse click was started on this DIV 
         this.addPut = (puts, putType) => {
             let id = this.generateId(puts);
             puts[id] = new putType(this, id);
@@ -59,6 +60,14 @@ class Block {
         };
         this.getDiv = () => {
             return this.div;
+        };
+        this.mouseDownHandler = (e) => {
+            this.startedCLick = true;
+        };
+        this.mouseUpHandler = (e) => {
+            this.startedCLick = false;
+        };
+        this.mouseMoveHandler = (e) => {
         };
         this.checkOutputVectors(outVec);
         this.id = id;

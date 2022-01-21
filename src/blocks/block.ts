@@ -14,6 +14,8 @@ class Block {
 
     div: HTMLDivElement;
 
+    startedCLick: boolean = false;  // Mouse click was started on this DIV 
+
     constructor(id: number, outVec: object, inputType: IOutput, outputType: IOutput) {
         this.checkOutputVectors(outVec);
 
@@ -100,6 +102,18 @@ class Block {
     getDiv = (): HTMLElement => {
         return this.div;
     };
+
+    mouseDownHandler = (e: MouseEvent): void => {
+        this.startedCLick = true;
+    };
+
+    mouseUpHandler = (e: MouseEvent): void => {
+        this.startedCLick = false;
+    };
+
+    mouseMoveHandler = (e: MouseEvent): void => {
+    };
+
 };
 
 

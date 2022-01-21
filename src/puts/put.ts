@@ -12,11 +12,18 @@ class Put {
     connection: Put;
     defaultState: boolean;
 
+    div: HTMLElement;
+    divCentreX: number;
+    divCentreY: number;
+
     constructor(state: boolean, parent: Block, id: number, connection: Put) {
         this.state = state;
         this.parent = parent;
         this.id = id;
         this.connection = connection;
+
+        this.div = document.createElement('div');
+        this.div.className = 'put ' + this.state;
     };
 
     get name(): string {
@@ -30,6 +37,9 @@ class Put {
 
     flip = (): void => {
         this.state = !this.state;
+
+        this.div.className = 'put ' + this.state;
+
         if (this.connection == null)
             return;
 
@@ -79,6 +89,7 @@ class Put {
             this.unconnect();
         }
     };
+
 
     debug = (): string => {
         let con = this.connection ? `${this.connection.id}` : null;

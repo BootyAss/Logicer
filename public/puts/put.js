@@ -9,6 +9,7 @@ class Put {
         };
         this.flip = () => {
             this.state = !this.state;
+            this.div.className = 'put ' + this.state;
             if (this.connection == null)
                 return;
             let [, isSource] = Connections[this.name][this.connection.name];
@@ -57,6 +58,8 @@ class Put {
         this.parent = parent;
         this.id = id;
         this.connection = connection;
+        this.div = document.createElement('div');
+        this.div.className = 'put ' + this.state;
     }
     ;
     get name() {
