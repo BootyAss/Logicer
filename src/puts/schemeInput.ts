@@ -8,6 +8,7 @@ class SchemeInput extends Input {
     constructor(parent: Block, id: number, state = true, connection: Put = null) {
         super(parent, id, state, connection);
         this.defaultState = true;
+        this.div.id = 'scheme input ' + this.id;
     };
 };
 

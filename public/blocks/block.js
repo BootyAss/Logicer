@@ -2,7 +2,11 @@ class Block {
     constructor(id, outVec, inputType, outputType) {
         this.inps = {};
         this.outs = {};
-        this.startedCLick = false; // Mouse click was started on this DIV 
+        this.divWidth = 0;
+        this.divHeight = 0;
+        this.startedClick = false; // Mouse click was started on this DIV 
+        this.clickedPut = null;
+        this.lines = {};
         this.addPut = (puts, putType) => {
             let id = this.generateId(puts);
             puts[id] = new putType(this, id);
@@ -61,11 +65,27 @@ class Block {
         this.getDiv = () => {
             return this.div;
         };
+        this.addInputDiv = (id, x, y) => {
+            let put = this.getInput(id);
+            put.divCentreX = x;
+            put.divCentreY = y;
+            put.div.style.left = put.divCentreX + 'px';
+            put.div.style.top = put.divCentreY + 'px';
+            this.div.appendChild(put.div);
+        };
+        this.addOutputDiv = (id, x, y) => {
+            let put = this.getOutput(id);
+            put.divCentreX = x;
+            put.divCentreY = y;
+            put.div.style.left = put.divCentreX + 'px';
+            put.div.style.top = put.divCentreY + 'px';
+            this.div.appendChild(put.div);
+        };
         this.mouseDownHandler = (e) => {
-            this.startedCLick = true;
+            this.startedClick = true;
         };
         this.mouseUpHandler = (e) => {
-            this.startedCLick = false;
+            this.startedClick = false;
         };
         this.mouseMoveHandler = (e) => {
         };

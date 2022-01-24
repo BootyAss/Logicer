@@ -45,7 +45,7 @@
             "dependsOrder": "sequence",
             "dependsOn": [
                 "tsc: build",
-                "generate node_modules",
+                // "generate node_modules",
                 "import extensions"
             ],
             "problemMatcher": [

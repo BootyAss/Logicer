@@ -1,15 +1,26 @@
 // Abstract Root class of all Inputs and Outputs
 // const Connections = require('./connections')
 import { Connections } from "./connections.js";
+import { Sets } from "./../settings.js";
 class Put {
     constructor(state, parent, id, connection) {
+        this.defaultState = false;
+        this.startedCLick = false;
+        this.mouseDownHandler = (e) => {
+            this.parent.clickedPut = this;
+        };
+        this.mouseUpHandler = (e) => {
+            this.parent.clickedPut = this;
+        };
+        this.mouseMoveHandler = (e) => {
+        };
         this.setState = (state) => {
             if (this.state !== state)
                 this.flip();
+            this.div.className = 'put ' + this.state;
         };
         this.flip = () => {
             this.state = !this.state;
-            this.div.className = 'put ' + this.state;
             if (this.connection == null)
                 return;
             let [, isSource] = Connections[this.name][this.connection.name];
@@ -35,13 +46,13 @@ class Put {
             if (isSource)
                 this.connection.parent.checkAllInputs(); // check new's outputs
             else {
-                this.state = con.state; // change ours state to new's
+                this.setState(con.state); // change ours state to new's
                 this.parent.checkAllInputs(); // check our soutputs
             }
         };
         this.unconnect = () => {
             this.connection = null;
-            this.state = this.defaultState;
+            this.setState(this.defaultState);
             this.parent.checkAllInputs();
         };
         this.removeSelf = () => {
@@ -49,6 +60,10 @@ class Put {
                 this.connection.unconnect();
                 this.unconnect();
             }
+        };
+        this.styleDiv = () => {
+            this.div.style.width = Sets.put.SIZE + 'px';
+            this.div.style.height = Sets.put.SIZE + 'px';
         };
         this.debug = () => {
             let con = this.connection ? `${this.connection.id}` : null;
@@ -60,6 +75,10 @@ class Put {
         this.connection = connection;
         this.div = document.createElement('div');
         this.div.className = 'put ' + this.state;
+        this.styleDiv();
+        this.div.onmousedown = this.mouseDownHandler;
+        this.div.onmouseup = this.mouseUpHandler;
+        this.div.onmousemove = this.mouseMoveHandler;
     }
     ;
     get name() {

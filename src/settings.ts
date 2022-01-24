@@ -36,6 +36,9 @@ var Sets = {
     put: {
         SIZE: 30,
     },
+    line: {
+        WIDTH: 2
+    },
     client: {
         WIDTH: document.body.clientWidth,
         HEIGHT: document.body.clientHeight,

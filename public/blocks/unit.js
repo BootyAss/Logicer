@@ -8,8 +8,6 @@ import { Sets } from './../settings.js';
 class Unit extends Block {
     constructor(id, outVec, name = 'Unit', color = null) {
         super(id, outVec, UnitInput, UnitOutput);
-        this.divWidth = 0;
-        this.divHeight = 0;
         this.divColor = null;
         this.addInput = () => {
             return this.addPut(this.inps, this.inputType);
@@ -35,13 +33,13 @@ class Unit extends Block {
             let dh = this.divHeight / (puts.length + 1);
             for (let i of puts) {
                 let putDiv = this.outs[i].div;
+                let left = this.divWidth + (Sets.unit.BORDER_WIDTH - Sets.put.SIZE) / 2;
+                let top = dh * iter - Sets.put.SIZE / 2;
+                this.outs[i].divCentreX = left;
+                this.outs[i].divCentreY = top;
+                putDiv.style.left = left + 'px';
+                putDiv.style.top = top + 'px';
                 this.div.appendChild(putDiv);
-                putDiv.style.width = Sets.put.SIZE + 'px';
-                putDiv.style.height = Sets.put.SIZE + 'px';
-                let left = this.divWidth;
-                let top = dh * iter;
-                putDiv.style.left = left + (Sets.unit.BORDER_WIDTH - Sets.put.SIZE) / 2 + 'px';
-                putDiv.style.top = top - Sets.put.SIZE / 2 + 'px';
                 iter++;
             }
             puts = Object.keys(this.inps);
@@ -49,13 +47,13 @@ class Unit extends Block {
             dh = this.divHeight / (puts.length + 1);
             for (let i of puts) {
                 let putDiv = this.inps[i].div;
+                let left = -(Sets.unit.BORDER_WIDTH + Sets.put.SIZE) / 2;
+                let top = dh * iter - Sets.put.SIZE / 2;
+                this.inps[i].divCentreX = left;
+                this.inps[i].divCentreY = top;
+                putDiv.style.left = left + 'px';
+                putDiv.style.top = top + 'px';
                 this.div.appendChild(putDiv);
-                putDiv.style.width = Sets.put.SIZE + 'px';
-                putDiv.style.height = Sets.put.SIZE + 'px';
-                let left = 0;
-                let top = dh * iter;
-                putDiv.style.left = left - (Sets.unit.BORDER_WIDTH + Sets.put.SIZE) / 2 + 'px';
-                putDiv.style.top = top - Sets.put.SIZE / 2 + 'px';
                 iter++;
             }
         };
@@ -115,13 +113,12 @@ class Unit extends Block {
             return color;
         };
         this.mouseDownHandler = (e) => {
-            this.startedCLick = true;
+            this.startedClick = true;
         };
         this.mouseUpHandler = (e) => {
-            this.startedCLick = false;
+            this.startedClick = false;
         };
         this.mouseMoveHandler = (e) => {
-            // this.startedCLick = false;
         };
         this.debug = () => {
             console.log('Unit ' + this.name + this.id + ':');

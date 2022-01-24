@@ -11,13 +11,11 @@ import { Sets } from './../settings';
 class Unit extends Block {
     name: string;
 
-    divWidth: number = 0;
-    divHeight: number = 0;
-    divCentreX: number;
-    divCentreY: number;
+
     divPrevCentreX: number;
     divPrevCentreY: number;
     divColor: string = null;
+
 
     constructor(id: number, outVec: object, name = 'Unit', color: string = null) {
         super(id, outVec, UnitInput, UnitOutput);
@@ -61,14 +59,13 @@ class Unit extends Block {
         let dh = this.divHeight / (puts.length + 1)
         for (let i of puts) {
             let putDiv = this.outs[i].div;
+            let left = this.divWidth + (Sets.unit.BORDER_WIDTH - Sets.put.SIZE) / 2;
+            let top = dh * iter - Sets.put.SIZE / 2;
+            this.outs[i].divCentreX = left;
+            this.outs[i].divCentreY = top;
+            putDiv.style.left = left + 'px';
+            putDiv.style.top = top + 'px';
             this.div.appendChild(putDiv);
-            putDiv.style.width = Sets.put.SIZE + 'px';
-            putDiv.style.height = Sets.put.SIZE + 'px';
-            let left = this.divWidth;
-            let top = dh * iter;
-
-            putDiv.style.left = left + (Sets.unit.BORDER_WIDTH - Sets.put.SIZE) / 2 + 'px';
-            putDiv.style.top = top - Sets.put.SIZE / 2 + 'px';
             iter++;
         }
 
@@ -77,14 +74,13 @@ class Unit extends Block {
         dh = this.divHeight / (puts.length + 1)
         for (let i of puts) {
             let putDiv = this.inps[i].div;
+            let left = - (Sets.unit.BORDER_WIDTH + Sets.put.SIZE) / 2;
+            let top = dh * iter - Sets.put.SIZE / 2;
+            this.inps[i].divCentreX = left;
+            this.inps[i].divCentreY = top;
+            putDiv.style.left = left + 'px';
+            putDiv.style.top = top + 'px';
             this.div.appendChild(putDiv);
-            putDiv.style.width = Sets.put.SIZE + 'px';
-            putDiv.style.height = Sets.put.SIZE + 'px';
-            let left = 0;
-            let top = dh * iter;
-
-            putDiv.style.left = left - (Sets.unit.BORDER_WIDTH + Sets.put.SIZE) / 2 + 'px';
-            putDiv.style.top = top - Sets.put.SIZE / 2 + 'px';
             iter++;
         }
     }
@@ -103,11 +99,9 @@ class Unit extends Block {
         for (let i of Object.keys(this.inps)) {
             this.inps[i].setState(this.inps[i].connection.state);
         }
-
         let inps: Array<UnitInput> = Object.values(this.inps);
         let newOutput = inps.map(put => put.state ? '1' : '0').join('');
         let newVecIndex = parseInt(newOutput, 2);
-
         // let changed = oldVecIndex != newVecIndex;
         for (let i of Object.keys(this.outs)) {
             this.outs[i].setState(this.outVec[i][newVecIndex]);
@@ -157,15 +151,14 @@ class Unit extends Block {
     }
 
     mouseDownHandler = (e: MouseEvent): void => {
-        this.startedCLick = true;
+        this.startedClick = true;
     };
 
     mouseUpHandler = (e: MouseEvent): void => {
-        this.startedCLick = false;
+        this.startedClick = false;
     };
 
     mouseMoveHandler = (e: MouseEvent): void => {
-        // this.startedCLick = false;
     };
 
     debug = (): void => {

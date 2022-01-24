@@ -3,6 +3,8 @@
 // const Connections = require('./connections')
 import { Connections } from "./connections";
 import { Block } from "./../blocks/block";
+import { LinePoint } from "./../linePoint";
+import { Sets } from "./../settings";
 
 
 class Put {
@@ -10,11 +12,13 @@ class Put {
     parent: Block;
     id: number;
     connection: Put;
-    defaultState: boolean;
+    defaultState: boolean = false;
 
     div: HTMLElement;
     divCentreX: number;
     divCentreY: number;
+
+    startedCLick = false;
 
     constructor(state: boolean, parent: Block, id: number, connection: Put) {
         this.state = state;
@@ -22,9 +26,24 @@ class Put {
         this.id = id;
         this.connection = connection;
 
+
         this.div = document.createElement('div');
         this.div.className = 'put ' + this.state;
+        this.styleDiv();
+        this.div.onmousedown = this.mouseDownHandler;
+        this.div.onmouseup = this.mouseUpHandler;
+        this.div.onmousemove = this.mouseMoveHandler;
     };
+
+    mouseDownHandler = (e: MouseEvent) => {
+        this.parent.clickedPut = this;
+    }
+    mouseUpHandler = (e: MouseEvent) => {
+        this.parent.clickedPut = this;
+    }
+    mouseMoveHandler = (e: MouseEvent) => {
+
+    }
 
     get name(): string {
         return this.constructor.name;
@@ -33,12 +52,11 @@ class Put {
     setState = (state: boolean): void => {
         if (this.state !== state)
             this.flip();
+        this.div.className = 'put ' + this.state;
     };
 
     flip = (): void => {
         this.state = !this.state;
-
-        this.div.className = 'put ' + this.state;
 
         if (this.connection == null)
             return;
@@ -72,14 +90,14 @@ class Put {
         if (isSource)
             this.connection.parent.checkAllInputs(); // check new's outputs
         else {
-            this.state = con.state; // change ours state to new's
+            this.setState(con.state) // change ours state to new's
             this.parent.checkAllInputs(); // check our soutputs
         }
     };
 
     unconnect = (): void => {
         this.connection = null;
-        this.state = this.defaultState;
+        this.setState(this.defaultState);
         this.parent.checkAllInputs();
     };
 
@@ -89,6 +107,10 @@ class Put {
             this.unconnect();
         }
     };
+    styleDiv = () => {
+        this.div.style.width = Sets.put.SIZE + 'px';
+        this.div.style.height = Sets.put.SIZE + 'px';
+    }
 
 
     debug = (): string => {

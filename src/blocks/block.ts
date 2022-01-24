@@ -1,6 +1,7 @@
 import { Put } from "./../puts/put";
 import { IInput } from "./../puts/input";
 import { IOutput } from "./../puts/output";
+import { Sets } from './../settings';
 
 
 class Block {
@@ -13,8 +14,14 @@ class Block {
     outs: object = {};
 
     div: HTMLDivElement;
+    divCentreX: number;
+    divCentreY: number;
+    divWidth: number = 0;
+    divHeight: number = 0;
 
-    startedCLick: boolean = false;  // Mouse click was started on this DIV 
+    startedClick: boolean = false;  // Mouse click was started on this DIV 
+    clickedPut: Put = null;
+    lines = {};
 
     constructor(id: number, outVec: object, inputType: IOutput, outputType: IOutput) {
         this.checkOutputVectors(outVec);
@@ -103,12 +110,30 @@ class Block {
         return this.div;
     };
 
+    addInputDiv = (id: number, x: number, y: number): void => {
+        let put = this.getInput(id);
+        put.divCentreX = x;
+        put.divCentreY = y;
+        put.div.style.left = put.divCentreX + 'px';
+        put.div.style.top = put.divCentreY + 'px';
+        this.div.appendChild(put.div);
+    };
+
+    addOutputDiv = (id: number, x: number, y: number): void => {
+        let put = this.getOutput(id);
+        put.divCentreX = x;
+        put.divCentreY = y;
+        put.div.style.left = put.divCentreX + 'px';
+        put.div.style.top = put.divCentreY + 'px';
+        this.div.appendChild(put.div);
+    };
+
     mouseDownHandler = (e: MouseEvent): void => {
-        this.startedCLick = true;
+        this.startedClick = true;
     };
 
     mouseUpHandler = (e: MouseEvent): void => {
-        this.startedCLick = false;
+        this.startedClick = false;
     };
 
     mouseMoveHandler = (e: MouseEvent): void => {

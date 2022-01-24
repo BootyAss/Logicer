@@ -31,6 +31,21 @@ body {
     border-radius: 50%;
 }
 
+.line {
+    stroke-width: 3px;
+}
+
+.btn.save {
+    position: absolute;
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+    background-color: #ffffff70;
+    color: #101010;
+}
+
 
 /* COLOURS */
 
@@ -66,4 +81,12 @@ body {
     background-color: #ec2929;
     width: 1px;
     height: 1px;
+}
+
+.line.true {
+    background-color: #ec2929;
+}
+
+.line.false {
+    background-color: #101010;
 }
